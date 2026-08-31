@@ -8,12 +8,37 @@ from pages.user_userinfo_page import UserinfoPage
 from common.connect_mysql import DBConnect, db_conf
 
 
-@pytest.fixture(scope="session", name="driver")
+# @pytest.fixture(scope="session", name="driver")
+# def bowser():
+#     driver = webdriver.Chrome()
+#     driver.maximize_window()
+#     yield driver
+#     driver.quit() # 退出浏览器
+
+
 def bowser():
-    driver = webdriver.Chrome()
-    driver.maximize_window()
-    yield driver
-    driver.quit() # 退出浏览器
+    '''定义全局driver'''
+    if platform.system() == 'Windows':
+        # windows系统
+        _driver = webdriver.Chrome()
+        _driver.maximize_window()
+
+    else:
+        # linux系统启动
+        chrome_options = Options()
+        chrome_options.add_argument('--headless') # 无界面
+        chrome_options.add_argument('--no-sandbox') # 解决DevToolsActivePort文件不存在的问题
+        chrome_options.add_argument('--disable-gpu') # 禁用gpu加速
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--window-size=1920x1080') # 设置当前窗口大小
+
+        # _driver = webdriver.Chrome(options=chrome_options)
+        _driver = webdriver.Chrome(options=chrome_options)
+
+    yield _driver
+    # quit退出浏览器
+    _driver.quit()
+
 
 @pytest.fixture(scope="session")
 def base_url():
