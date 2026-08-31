@@ -15,7 +15,7 @@ from common.connect_mysql import DBConnect, db_conf
 #     yield driver
 #     driver.quit() # 退出浏览器
 
-
+@pytest.fixture(scope="session", name="driver")
 def bowser():
     '''定义全局driver'''
     if platform.system() == 'Windows':
