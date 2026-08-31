@@ -1,5 +1,7 @@
 import pytest
+import platform
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 from pages.register_page import RegisterPage
 from pages.users_login_page import UserLoginPage
